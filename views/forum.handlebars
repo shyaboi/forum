@@ -1,0 +1,53 @@
+<button class="uk-button uk-button-default" type="button">Hover</button>
+<div uk-dropdown>
+    <ul class="uk-nav uk-dropdown-nav">
+        <li class="uk-active"><a href="#">Post A Thing</a></li>
+        <li><a href="/newpost">New Post</a></li>
+        <li class="uk-nav-header">Home</li>
+        <li><a href="/">Home</a></li>
+        <li class="uk-nav-divider"></li>
+        <li><a href="/forum">The Forum</a></li>
+    </ul>
+</div>
+
+<div class="uk-container">
+  {{# each fileName}}
+<ul class="uk-comment-list">
+    <li>
+      <hr>
+<div class="uk-container">
+    <h1 class="uk-margin-remove"><a class="uk-link-reset" href="#">{{this.title}}</a></h1>
+
+                        <hr class="uk-divider-small">
+        <article class="uk-comment uk-visible-toggle" tabindex="-1">
+            <header class="uk-comment-header uk-position-relative">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-comment-avatar" src="https://placekitten.com/96/139" width="80" height="80" alt="">
+                    </div>
+                    <div class="uk-width-expand">
+                      
+                        <h5 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{this.authour}}</a></h5>
+                        
+                        
+                        <p class="uk-comment-meta uk-margin-remove-top"><a class="uk-link-reset" href="#">{{this.date}}</a></p>
+                        <hr class="uk-divider-small">
+
+                    </div>
+                </div>
+                <div class="uk-position-top-right uk-position-small uk-hidden-hover"><a class="uk-link-muted" href="/forum/post/{{this.uuid}}">{{this.uuid}}</a></div>
+            </header>
+            <div class="uk-comment-body">
+                <p>{{this.comment}}</p>
+            </div>
+      <hr>
+           {{# each this.replys}}
+           <hr>
+       <div class="uk-comment-body">
+                <ul><li>{{this}}</li></ul>
+            </div>
+            <hr>
+            {{/each}}
+<hr class="uk-divider-icon">
+
+  {{/each}}

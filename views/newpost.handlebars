@@ -1,0 +1,37 @@
+<button class="uk-button uk-button-default" type="button">Hover</button>
+<div uk-dropdown>
+    <ul class="uk-nav uk-dropdown-nav">
+        <li class="uk-active"><a href="#">Post A Thing</a></li>
+        <li><a href="/newpost">New Post</a></li>
+        <li class="uk-nav-header">Home</li>
+        <li><a href="/">Home</a></li>
+        <li class="uk-nav-divider"></li>
+        <li><a href="/forum">The Forum</a></li>
+    </ul>
+</div>
+
+<div class="uk-container" id="newPostContainer">
+<form action="postpost" method="POST">
+
+
+        <div class="uk-margin">
+            <input class="uk-input" name="title" type="text" placeholder="Title" value="">
+        </div>
+        
+        <div class="uk-margin">
+            <input class="uk-input" name="author" type="text" placeholder="Author" value="">
+        </div>
+        
+
+        <div class="uk-margin">
+            <textarea class="uk-textarea" rows="4" name="comment" placeholder="Textarea" value=""></textarea>
+        </div>
+<button type="submit" value="postpost" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Button</button>
+
+     
+
+      
+
+    </fieldset>
+</form>
+</div>
