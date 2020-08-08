@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 require("dotenv").config();
 const donus = process.env.MONGO_THING;
 var exphbs = require("express-handlebars");
+var helpers = require('handlebars-helpers')();
 var bodyParser = require("body-parser");
 const { MongoClient } = require("mongodb");
 // const NewPost = require("./models/models")
@@ -19,6 +20,8 @@ const { v4: uuidv4 } = require('uuid');
 // Define a custom namespace.  Readers, create your own using something like
 
 var Schema = mongoose.Schema;
+
+
 app.use(express.static("public/views/layouts"));
 
 app.use(express.static(__dirname + "/public"));
@@ -28,8 +31,12 @@ var NewPost = new Schema({
   date: Number,
   comment: String,
   replys: Array,
-  uuid:String
+  uuid:String,
+  opID:String,
+
 });
+
+
 
 // -----------------------------------------------------date constructor
 
@@ -58,7 +65,7 @@ if (s < 10) {
 }
 const longDate = "" + y + m + dd + h + mm + s;
 
-console.log(longDate);
+// console.log(longDate);
 
 
 // -----------------------------------------------------date constructor
@@ -77,6 +84,31 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 
 
+app.post("/like", (req, res) => { 
+    const okis = req.body.name
+  
+    const okys = okis
+      
+      res.json(okys + " upvoted") ;   
+      // console.log(okys)
+      let q = {name:okys}
+  
+      MongoClient.connect(
+        mongoDB,
+        { useNewUrlParser: true, useUnifiedTopology: true },
+        function (err, db) {
+          if (err) throw err;
+          var dbo = db.db("donu");
+          dbo.collection("Wallpapers").updateOne(q, { $inc: { upboats:1} }, function (err, res) {
+            if (err) throw err;
+            console.log("\x1b[36m", "1 document inserted");
+          });
+          
+        });
+      db.close();
+  
+    })
+
 app.get("/forum", (request, response) => {
 
     const getAll = () => {
@@ -86,7 +118,7 @@ app.get("/forum", (request, response) => {
         function (err, db) {
           if (err) throw err;
           var dbo = db.db("donu");
-          var mysort = { date: 1 };
+          var mysort = { date: -1 };
           dbo
             .collection("Forum")
             .find({})
@@ -101,10 +133,13 @@ app.get("/forum", (request, response) => {
                   const results = result.map((wall) => {
                       return wall;
                     });
-                    console.log(results)
-  
-              const fileName = results;
-              // }
+                    const fileName = results;
+                    // for (let i = 0; i < fileName.length; i++) {
+                    //   const element = JSON.stringify(fileName[i].comment);
+                    //   console.log(element)
+                    // }
+                    
+  // }
               db.close();
               response.render(`forum`, {
                 fileName: fileName,
@@ -119,9 +154,9 @@ app.get("/forum", (request, response) => {
 
   
 
-  app.get("/forum/post/:postid?", (req, res) => {
-    console.log(req.query.name)
-    let keyParam = req.params.postid;
+  app.get("/post:postid?", (request, response) => {
+    // console.log(request.query.name)
+    let keyParam = request.params.postid;
 
 console.log(keyParam)
     MongoClient.connect(
@@ -141,16 +176,19 @@ console.log(keyParam)
               return post;
             });
             const postData = results[0]
-            const postReply = results[0].replys
+            // const postReply = results[0].replys
 
      
                 
-                console.log(postData)
+                // console.log(postData)
     
            
-    res.json(result);
+                response.render(`post`, {
+                    postData: postData,
+                  });
   });
-  })})
+  })
+})
 
 app.get("/", (request, response) => {
 
@@ -176,7 +214,7 @@ app.get("/", (request, response) => {
                   const results = result.map((wall) => {
                       return wall;
                     });
-                    console.log(results)
+                    // console.log(results)
   
               const fileName = results;
               // }
@@ -192,7 +230,6 @@ app.get("/", (request, response) => {
     // console.log(ok)
   });
 
-app.post("/newforumpost", (request, response) => {});
 app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
@@ -203,12 +240,12 @@ app.post("/postpost", (request, response) => {
   const comment = request.body.comment;
   const author = request.body.author;
   const uuuid = uuidv4();
-  var mongoModle = new Model({
+  const mongoModle = new Model({
     title: `${title}`,
     authour: author,
     date: longDate,
     comment: `${comment}`,
-    replys: ["things", "another thing", "i am also a thing"],
+    replys: [],
     uuid:uuuid
   });
 
@@ -226,10 +263,110 @@ app.post("/postpost", (request, response) => {
       });
     }
   );
-
-  console.log(request.body, title, comment);
-  response.json({ title, comment });
+setTimeout(() => {
+    response.redirect(`/post${uuuid}`);
+    
+}, 300);
 });
+
+
+
+
+app.post("/replypost", (response,request)=> {   
+    //  console.log(response.body.opID)
+    let keyParam = response.body.opID;
+
+console.log(keyParam)
+    MongoClient.connect(
+      mongoDB,
+      { useNewUrlParser: true, useUnifiedTopology: true },
+      function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("donu");
+        var mysort = { date: 1 };
+        dbo
+          .collection("Forum")
+          .update({uuid:keyParam}, { $push: { replys: 
+            {   author:response.body.authorr,
+                comment:response.body.commentr,
+                opID:uuid,
+                uuuid:uuidv4(),
+                date:longDate,
+                replys:[]
+                } }})
+          console.log("comment added to: " + keyParam)
+        //   .sort(mysort)
+        //   .toArray(function (err, result) {
+        //     if (err) throw err;
+        //     const results = result.map((post) => {
+        //       return post;
+        //     });
+        //     const postData = results[0]
+        //     // const postReply = results[0].replys
+
+     
+                
+        //         console.log(postData)
+    
+           
+        //   });
+    })
+    setTimeout(() => {
+        request.redirect(`/post${keyParam}`);
+        
+    }, 300);  
+})
+
+
+app.post("/replyreplypost", (response,request)=> {   
+    //  console.log(response.body.opID)
+    let keyParam = response.body.opID;
+
+console.log(keyParam)
+    MongoClient.connect(
+      mongoDB,
+      { useNewUrlParser: true, useUnifiedTopology: true },
+      function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("donu");
+        var mysort = { date: 1 };
+        dbo
+          .collection("Forum")
+          .update({uuuid:keyParam}, { $push: { replys: 
+            {   
+                  author:response.body.authorr,
+                  comment:response.body.commentr,
+                  uuuuid:uuidv4(),
+                  date:longDate,
+                  replys:[]
+                } }})
+          console.log("comment added to: " + keyParam)
+        //   .sort(mysort)
+        //   .toArray(function (err, result) {
+        //     if (err) throw err;
+        //     const results = result.map((post) => {
+        //       return post;
+        //     });
+        //     const postData = results[0]
+        //     // const postReply = results[0].replys
+
+     
+                
+        //         console.log(postData)
+    
+           
+        //   });
+    })
+    setTimeout(() => {
+        request.redirect(`/post${keyParam}`);
+        
+    }, 300);  
+})
+
+
+
+
+
 
 app.listen(PORT);
 console.log("server started on " + PORT);

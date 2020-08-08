@@ -1,14 +1,30 @@
+<div class="uk-container">
+
 <button class="uk-button uk-button-default" id="navButt" type="button">Hover</button>
 <div uk-dropdown>
     <ul class="uk-nav uk-dropdown-nav">
-        <li class="uk-active"><a href="#">Post A Thing</a></li>
         <li><a href="/newpost">New Post</a></li>
-        <li class="uk-nav-header">Home</li>
-        <li><a href="/">Home</a></li>
         <li class="uk-nav-divider"></li>
-        <li><a href="/forum">The Forum</a></li>
+        <li class="uk-nav-header">The Forums</li>
+        <li><a href="/forum">Board 1</a></li>
     </ul>
 </div>
+
+
+<button href="#toggle-animation" class="uk-button uk-button-default hidden"  type="button"  uk-toggle="  target: #toggle-animation; hidden; animation: uk-animation-fade">Toggle</button>
+<div id="toggle-animation" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden><form action="postpost" method="POST">
+        <div class="uk-margin">
+            <input class="uk-input" name="title" type="text" placeholder="Title" value="">
+        </div>
+        <div class="uk-margin">
+            <input class="uk-input" name="author" type="text" placeholder="Author" value="">
+        </div>
+        <div class="uk-margin">
+            <textarea class="uk-textarea" rows="4" name="comment" placeholder="Textarea" value=""></textarea>
+        </div>
+<button type="submit" value="postpost" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Button</button>
+    </fieldset>
+</form></div>
 
 <div class="uk-container">
 
@@ -96,4 +112,6 @@
         </ul>
     </li>
 </ul>
+</div>
+
 </div>

@@ -1,4 +1,60 @@
+:root {
+    --grad: linear-gradient(
+      90deg,
+      rgba(234, 244, 236, 1) 0%,
+      rgba(254, 255, 237, 1) 35%,
+      rgba(228, 224, 215, 1) 59%,
+      rgba(229, 229, 229, 1) 100%
+    );
+  }
+  
+  html {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: var(--grad);
+    background-size: 600%;
+    animation: bg-ani 40s infinite alternate;
+    font-weight: 600;
+  }
+  #toggle-animation{
+    background-image: var(--grad);
+    background-size: 600%;
+    animation: bg-ani 240s infinite alternate;
+  }
+  
+  @keyframes bg-ani {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+  }
+
 #newPostContainer{
-    padding: 25vw;
-background: #292A2D;
+    padding: 5vw;
 }
+
+.complete {
+    display: none;
+  }
+
+
+  #ID{
+    display: none;
+
+  }
+
+  .reply{
+    background-image: var(--grad);
+    background-size: 600%;
+    animation: bg-ani 240s infinite alternate;
+    z-index: 11;
+    -webkit-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+    -moz-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+    box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+  }

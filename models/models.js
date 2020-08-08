@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 
 
 // const PostReply = new Model({
-//     op:String,
+//     opID:String,
+//     uuid:String,
 //     authour:String,
 //     date:Number,
 //     comment:String,

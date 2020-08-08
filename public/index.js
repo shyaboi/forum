@@ -13,26 +13,51 @@ $(function() {
     });
 });
 
-// var scrollPosition
+$.fn.clicktoggle = function(a, b) {
+    return this.each(function() {
+        var clicked = false;
+        $(this).click(function() {
+            if (clicked) {
+                clicked = false;
+                return b.apply(this, arguments);
+            }
+            clicked = true;
+            return a.apply(this, arguments);
+        });
+    });
+};
 
-// $(window).on('scroll', function() {
-//   scrollPosition= $(this).scrollTop()
-//    console.log(scrollPosition) 
-//    return scrollPosition
-// });
+$(".more").clicktoggle(function() {
+  $(this).text("less..").siblings(".complete").show();
+  $(this).text("less..").siblings("#teas").hide();
 
-// $(function() {
-//     $(window).unload(function() {
-//        localStorage.setItem("scrollPosition", scrollPosition);
-//     });
-//     if(localStorage.scrollPosition) {
-//        $(scrollPosition).scrollTop(localStorage.getItem("scrollPosition"));
-//     }
-//  });
+}, function() {
+  $(this).text("more..").siblings(".complete").hide();
+  $(this).text("more..").siblings("#teas").show();
 
-//  $(document).ready(function(){
-//     $(this).scrollTop(localStorage.getItem("scrollPosition"));
-// });
+  });
+
+
+var scrollPosition
+
+$(window).on('scroll', function() {
+  scrollPosition= $(this).scrollTop()
+   console.log(scrollPosition) 
+   return scrollPosition
+});
+
+$(function() {
+    $(window).unload(function() {
+       localStorage.setItem("scrollPosition", scrollPosition);
+    });
+    if(localStorage.scrollPosition) {
+       $(scrollPosition).scrollTop(localStorage.getItem("scrollPosition"));
+    }
+ });
+
+ $(document).ready(function(){
+    $(this).scrollTop(localStorage.getItem("scrollPosition"));
+});
 
 
 // $(".likeButt").click(function(event){
