@@ -16,6 +16,7 @@ var mongoose = require("mongoose");
 const { json } = require("body-parser");
 var db = mongoose.connection;
 const { v4: uuidv4 } = require('uuid');
+const { ok } = require("assert");
  
 // Define a custom namespace.  Readers, create your own using something like
 
@@ -275,8 +276,8 @@ setTimeout(() => {
 app.post("/replypost", (response,request)=> {   
     //  console.log(response.body.opID)
     let keyParam = response.body.opID;
+    const uuid = response.body.uuid
 
-console.log(keyParam)
     MongoClient.connect(
       mongoDB,
       { useNewUrlParser: true, useUnifiedTopology: true },
