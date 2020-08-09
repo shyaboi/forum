@@ -28,6 +28,7 @@ app.use(express.static("public/views/layouts"));
 app.use(express.static(__dirname + "/public"));
 var NewPost = new Schema({
   title: String,
+  avatar:String,
   authour: String,
   date: String,
   comment: String,
@@ -206,9 +207,11 @@ app.post("/postpost", (request, response) => {
   const comment = request.body.comment;
   const author = request.body.author;
   const uuuid = uuidv4();
+  const avatar = request.body.avatar
   console.log(longDate)
   const mongoModle = new Model({
     title: `${title}`,
+    avatar:avatar,
     authour: author,
     date: longDate,
     comment: `${comment}`,
@@ -244,6 +247,7 @@ app.post("/replypost", (response,request)=> {
      console.log(response.body)
     let keyParam = response.body.opID;
     // const uuid = response.body.uuid
+    const avatar = response.body.avatar
  
     const longDate = moment().format()
     MongoClient.connect(
@@ -255,8 +259,10 @@ app.post("/replypost", (response,request)=> {
         var mysort = { date: 1 };
         dbo
           .collection("Forum")
-          .update({uuid:keyParam}, { $push: { replys: 
-            {   author:response.body.authorr,
+          .updateOne({uuid:keyParam}, { $push: { replys: 
+            {   
+              author:response.body.authorr,
+              avatar:avatar||"https://placekitten.com/96/139",
                 comment:response.body.commentr,
                 opID:keyParam,
                 uuuid:uuidv4(),
