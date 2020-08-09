@@ -29,7 +29,7 @@ app.use(express.static(__dirname + "/public"));
 var NewPost = new Schema({
   title: String,
   authour: String,
-  date: Number,
+  date: String,
   comment: String,
   replys: Array,
   uuid:String,
@@ -60,32 +60,10 @@ app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
 app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
+var moment = require('moment'); // require
 
 app.get("/forum", (request, response) => {
-  let d = new Date();
-let y = d.getFullYear();
-let m = d.getMonth() + 1;
-let dd = d.getDate();
-let h = d.getHours();
-let mm = d.getMinutes();
-let s = d.getSeconds();
-
-if (m < 10) {
-  m = "" + 0 + m;
-}
-if (dd < 10) {
-  dd = "" + 0 + dd;
-}
-if (h < 10) {
-  h = "" + 0 + h;
-}
-if (mm < 10) {
-  mm = "" + 0 + mm;
-}
-if (s < 10) {
-  s = "" + 0 + s;
-}
-let longDate = "" + y + m + dd + h + mm + s;
+ console.log(typeof(longDate))
 
 const ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
 const ip2 = request.headers['x-forwarded-for'] || 
@@ -101,7 +79,7 @@ console.log("ip2:"+ip2)
         function (err, db) {
           if (err) throw err;
           var dbo = db.db("donu");
-          var mysort = { date: 1 };
+          var mysort = { date: -1 };
           dbo
             .collection("Forum")
             .find({})
@@ -220,37 +198,15 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 app.post("/postpost", (request, response) => {
-  let d = new Date();
-  let y = d.getFullYear();
-  let m = d.getMonth() + 1;
-  let dd = d.getDate();
-  let h = d.getHours();
-  let mm = d.getMinutes();
-  let s = d.getSeconds();
-  
-  if (m < 10) {
-    m = "" + 0 + m;
-  }
-  if (dd < 10) {
-    dd = "" + 0 + dd;
-  }
-  if (h < 10) {
-    h = "" + 0 + h;
-  }
-  if (mm < 10) {
-    mm = "" + 0 + mm;
-  }
-  if (s < 10) {
-    s = "" + 0 + s;
-  }
-  let longDate = "" + y + m + dd + h + mm + s;
-  
+
+  const longDate = moment().format()
   let ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
 
   const title = request.body.title;
   const comment = request.body.comment;
   const author = request.body.author;
   const uuuid = uuidv4();
+  console.log(longDate)
   const mongoModle = new Model({
     title: `${title}`,
     authour: author,
@@ -288,31 +244,8 @@ app.post("/replypost", (response,request)=> {
      console.log(response.body)
     let keyParam = response.body.opID;
     // const uuid = response.body.uuid
-    let d = new Date();
-let y = d.getFullYear();
-let m = d.getMonth() + 1;
-let dd = d.getDate();
-let h = d.getHours();
-let mm = d.getMinutes();
-let s = d.getSeconds();
-
-if (m < 10) {
-  m = "" + 0 + m;
-}
-if (dd < 10) {
-  dd = "" + 0 + dd;
-}
-if (h < 10) {
-  h = "" + 0 + h;
-}
-if (mm < 10) {
-  mm = "" + 0 + mm;
-}
-if (s < 10) {
-  s = "" + 0 + s;
-}
-let longDate = "" + y + m + dd + h + mm + s;
-    
+ 
+    const longDate = moment().format()
     MongoClient.connect(
       mongoDB,
       { useNewUrlParser: true, useUnifiedTopology: true },
@@ -355,31 +288,8 @@ let longDate = "" + y + m + dd + h + mm + s;
 
 
 app.post("/replyreplypost", (response,request)=> { 
-  let d = new Date();
-  let y = d.getFullYear();
-  let m = d.getMonth() + 1;
-  let dd = d.getDate();
-  let h = d.getHours();
-  let mm = d.getMinutes();
-  let s = d.getSeconds();
-  
-  if (m < 10) {
-    m = "" + 0 + m;
-  }
-  if (dd < 10) {
-    dd = "" + 0 + dd;
-  }
-  if (h < 10) {
-    h = "" + 0 + h;
-  }
-  if (mm < 10) {
-    mm = "" + 0 + mm;
-  }
-  if (s < 10) {
-    s = "" + 0 + s;
-  }
-  let longDate = "" + y + m + dd + h + mm + s;
-
+ 
+  const longDate = moment().format()
   const don = response.body.uuuid.split("+")  ;
   const donus = don[0]; 
   const danus = don[1];
