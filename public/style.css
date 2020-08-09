@@ -17,6 +17,10 @@
       width: 300px;
     }
    body{ font-size: 35px;}
+
+   .uk-nav{
+     font-size: 35px;
+   }
   }
   html {
     margin: 0;
@@ -63,13 +67,39 @@
     background-image: var(--grad);
     background-size: 600%;
     animation: bg-ani 240s infinite alternate;
-    z-index: 11;
+    z-index: 222;
     -webkit-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
     -moz-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
     box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
   }
   #rReplyBox{
+  
+    -webkit-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+    -moz-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+    box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+  }
+  #rrReplyBox{
     float: right;
     color: rgba(62, 74, 82);
     font-weight: 700;
+    padding: 10px;
+  }
+
+  #nav{
+    top: 0;
+    left: 2vw;
+    position: fixed;
+  }
+  .uk-nav{
+    font-size: 25px;
+  }
+
+  #forumBox{
+    padding-top:6rem;
+  }
+
+  h1{
+    font-family: 'Cinzel', serif;
+color: #336A6C;
+font-weight: 600;
   }
