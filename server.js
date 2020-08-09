@@ -70,6 +70,7 @@ const longDate = "" + y + m + dd + h + mm + s;
 
 
 // -----------------------------------------------------date constructor
+
 var Model = mongoose.model("NewPost", NewPost);
 
 mongoose
@@ -84,34 +85,14 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 
-
-app.post("/like", (req, res) => { 
-    const okis = req.body.name
-  
-    const okys = okis
-      
-      res.json(okys + " upvoted") ;   
-      // console.log(okys)
-      let q = {name:okys}
-  
-      MongoClient.connect(
-        mongoDB,
-        { useNewUrlParser: true, useUnifiedTopology: true },
-        function (err, db) {
-          if (err) throw err;
-          var dbo = db.db("donu");
-          dbo.collection("Wallpapers").updateOne(q, { $inc: { upboats:1} }, function (err, res) {
-            if (err) throw err;
-            console.log("\x1b[36m", "1 document inserted");
-          });
-          
-        });
-      db.close();
-  
-    })
-
 app.get("/forum", (request, response) => {
-
+let ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
+var ip2 = request.headers['x-forwarded-for'] || 
+request.connection.remoteAddress || 
+request.socket.remoteAddress ||
+(request.connection.socket ? request.connection.socket.remoteAddress : null);
+console.log("ip1:"+ip)
+console.log("ip2:"+ip2)
     const getAll = () => {
     MongoClient.connect(
         mongoDB,
