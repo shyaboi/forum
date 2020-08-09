@@ -41,30 +41,6 @@ var NewPost = new Schema({
 
 // -----------------------------------------------------date constructor
 
-var d = new Date();
-const y = d.getFullYear();
-var m = d.getMonth() + 1;
-let dd = d.getDate();
-let h = d.getHours();
-let mm = d.getMinutes();
-let s = d.getSeconds();
-
-if (m < 10) {
-  m = "" + 0 + m;
-}
-if (dd < 10) {
-  dd = "" + 0 + dd;
-}
-if (h < 10) {
-  h = "" + 0 + h;
-}
-if (mm < 10) {
-  mm = "" + 0 + mm;
-}
-if (s < 10) {
-  s = "" + 0 + s;
-}
-const longDate = "" + y + m + dd + h + mm + s;
 
 // console.log(longDate);
 
@@ -86,6 +62,31 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 
 app.get("/forum", (request, response) => {
+  let d = new Date();
+let y = d.getFullYear();
+let m = d.getMonth() + 1;
+let dd = d.getDate();
+let h = d.getHours();
+let mm = d.getMinutes();
+let s = d.getSeconds();
+
+if (m < 10) {
+  m = "" + 0 + m;
+}
+if (dd < 10) {
+  dd = "" + 0 + dd;
+}
+if (h < 10) {
+  h = "" + 0 + h;
+}
+if (mm < 10) {
+  mm = "" + 0 + mm;
+}
+if (s < 10) {
+  s = "" + 0 + s;
+}
+let longDate = "" + y + m + dd + h + mm + s;
+
 const ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
 const ip2 = request.headers['x-forwarded-for'] || 
 request.connection.remoteAddress || 
@@ -219,7 +220,31 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 app.post("/postpost", (request, response) => {
-    
+  let d = new Date();
+  let y = d.getFullYear();
+  let m = d.getMonth() + 1;
+  let dd = d.getDate();
+  let h = d.getHours();
+  let mm = d.getMinutes();
+  let s = d.getSeconds();
+  
+  if (m < 10) {
+    m = "" + 0 + m;
+  }
+  if (dd < 10) {
+    dd = "" + 0 + dd;
+  }
+  if (h < 10) {
+    h = "" + 0 + h;
+  }
+  if (mm < 10) {
+    mm = "" + 0 + mm;
+  }
+  if (s < 10) {
+    s = "" + 0 + s;
+  }
+  let longDate = "" + y + m + dd + h + mm + s;
+  
   let ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
 
   const title = request.body.title;
@@ -263,7 +288,31 @@ app.post("/replypost", (response,request)=> {
      console.log(response.body)
     let keyParam = response.body.opID;
     // const uuid = response.body.uuid
+    let d = new Date();
+let y = d.getFullYear();
+let m = d.getMonth() + 1;
+let dd = d.getDate();
+let h = d.getHours();
+let mm = d.getMinutes();
+let s = d.getSeconds();
 
+if (m < 10) {
+  m = "" + 0 + m;
+}
+if (dd < 10) {
+  dd = "" + 0 + dd;
+}
+if (h < 10) {
+  h = "" + 0 + h;
+}
+if (mm < 10) {
+  mm = "" + 0 + mm;
+}
+if (s < 10) {
+  s = "" + 0 + s;
+}
+let longDate = "" + y + m + dd + h + mm + s;
+    
     MongoClient.connect(
       mongoDB,
       { useNewUrlParser: true, useUnifiedTopology: true },
@@ -306,6 +355,31 @@ app.post("/replypost", (response,request)=> {
 
 
 app.post("/replyreplypost", (response,request)=> { 
+  let d = new Date();
+  let y = d.getFullYear();
+  let m = d.getMonth() + 1;
+  let dd = d.getDate();
+  let h = d.getHours();
+  let mm = d.getMinutes();
+  let s = d.getSeconds();
+  
+  if (m < 10) {
+    m = "" + 0 + m;
+  }
+  if (dd < 10) {
+    dd = "" + 0 + dd;
+  }
+  if (h < 10) {
+    h = "" + 0 + h;
+  }
+  if (mm < 10) {
+    mm = "" + 0 + mm;
+  }
+  if (s < 10) {
+    s = "" + 0 + s;
+  }
+  let longDate = "" + y + m + dd + h + mm + s;
+
   const don = response.body.uuuid.split("+")  ;
   const donus = don[0]; 
   const danus = don[1];
