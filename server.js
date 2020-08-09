@@ -34,7 +34,7 @@ var NewPost = new Schema({
   replys: Array,
   uuid:String,
   opID:String,
-
+  ip:String
 });
 
 
@@ -86,8 +86,8 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 
 app.get("/forum", (request, response) => {
-let ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
-var ip2 = request.headers['x-forwarded-for'] || 
+const ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
+const ip2 = request.headers['x-forwarded-for'] || 
 request.connection.remoteAddress || 
 request.socket.remoteAddress ||
 (request.connection.socket ? request.connection.socket.remoteAddress : null);
@@ -137,6 +137,7 @@ console.log("ip2:"+ip2)
   
 
   app.get("/post:postid?", (request, response) => {
+    
     // console.log(request.query.name)
     let keyParam = request.params.postid;
 
@@ -219,6 +220,7 @@ app.get("/newpost", (request, response) => {
 });
 app.post("/postpost", (request, response) => {
     
+  let ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
 
   const title = request.body.title;
   const comment = request.body.comment;
@@ -230,7 +232,8 @@ app.post("/postpost", (request, response) => {
     date: longDate,
     comment: `${comment}`,
     replys: [],
-    uuid:uuuid
+    uuid:uuuid,
+    ip:ip
   });
 
   MongoClient.connect(
