@@ -100,7 +100,7 @@ console.log("ip2:"+ip2)
         function (err, db) {
           if (err) throw err;
           var dbo = db.db("donu");
-          var mysort = { date: -1 };
+          var mysort = { date: 1 };
           dbo
             .collection("Forum")
             .find({})
