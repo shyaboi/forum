@@ -32,6 +32,7 @@
     <li>
       <hr>
 <div class="uk-container">
+    {{#with all}}
     <h1 class="uk-margin-remove"><a class="uk-link-reset" href="#">Post Title</a></h1>
                         <hr class="uk-divider-small">
         <article class="uk-comment uk-visible-toggle" tabindex="-1">
@@ -53,13 +54,20 @@
                 <div class="uk-position-top-right uk-position-small uk-hidden-hover"><a class="uk-link-muted" href="#">Reply</a></div>
             </header>
             <div class="uk-comment-body">
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                {{# each replys}}
+                <p>{{this.author}}</p>
+                <p>{{this.date}}</p>
+                <p>{{this.opID}}</p>
+                <p>{{this.uuuid}}</p>
+                <p>{{this.replys}}</p>                
+                {{/each}}
             </div>
       <hr>
 
             <div class="signatureBox"><h4>Signature garbage</h4> Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, praesentium? Doloribus non dignissimos velit placeat rerum in ipsam. Obcaecati iusto laudantium cumque minima sint odit ea ullam nam recusandae fuga?</div>
         </article>
 </div>
+{{/with}}
 <hr class="uk-divider-icon">
         <ul>
             <li>

@@ -123,14 +123,20 @@
                                                <div class="uk-margin">
                                                <textarea class="uk-textarea" rows="4" name="commentr" placeholder="Textarea" value=""></textarea>
                                                  </div>
-                                            <button type="submit"  name="opID" value={{this.uuuid}} class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Button</button>
+                                            <button type="submit"  name="uuuid" value={{this.uuuid}}+{{this.opID}} class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Button</button>
                                               </fieldset>
                                             </form></div></div></div>
             </header>
             </article>
             <div class="uk-comment-body">
                 <p style="white-space: pre-line">{{this.comment}}</p>
-                <p>{{this.replys}}</p>
+                {{#each replis}}
+                <div id="rReplyBox">
+                <p>{{this.author}}</p>
+                <p>{{this.date}}</p>
+                <p>{{this.comment}}</p>
+</div>
+            {{/each}}
             </div>
       <hr>
             {{/each}}

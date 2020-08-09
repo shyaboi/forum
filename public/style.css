@@ -7,7 +7,17 @@
       rgba(229, 229, 229, 1) 100%
     );
   }
+  @media (max-width: 1200px) {
+    button {
+      width: 200px;
+    height: 75px;}
   
+    input{
+      height: 75px;
+      width: 300px;
+    }
+   body{ font-size: 35px;}
+  }
   html {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -57,4 +67,9 @@
     -webkit-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
     -moz-box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
     box-shadow: 0 2px 9px 5px rgba(41, 41, 40, 1);
+  }
+  #rReplyBox{
+    float: right;
+    color: rgba(62, 74, 82);
+    font-weight: 700;
   }

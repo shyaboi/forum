@@ -203,25 +203,27 @@ app.get("/", (request, response) => {
           var mysort = { date: 1 };
           dbo
             .collection("Forum")
-            .find({})
+            .find(
+              {replys:{$elemMatch:{uuuid:"0372d7e9-a6d0-4de2-b0e3-b0e517a142e4"}}}
+              )
             .sort(mysort)
             .toArray(function (err, result) {
               if (err) throw err;
-              // for (let i = 0; i < result.length; i++) {
-                  //   const all = result[i];
-                  // console.log("\x1b[35m", element.name);
-                  // var getAl = all.name
-                  // console.log(getAl)
-                  const results = result.map((wall) => {
-                      return wall;
-                    });
-                    // console.log(results)
-  
-              const fileName = results;
+              for (let i = 0; i < result.length; i++) {
+                    var all = result[i];
+                  console.log("\x1b[35m", all.replys);
+              }
+                  // const results = result.map((wall) => {
+                  //   return wall;
+                  // });
+                  // console.log(wall)
+                  
+              const fileName = result;
               // }
               db.close();
               response.render(`home`, {
                 fileName: fileName,
+                all:all,
               });
             });
         }
@@ -274,9 +276,9 @@ setTimeout(() => {
 
 
 app.post("/replypost", (response,request)=> {   
-    //  console.log(response.body.opID)
+     console.log(response.body)
     let keyParam = response.body.opID;
-    const uuid = response.body.uuid
+    // const uuid = response.body.uuid
 
     MongoClient.connect(
       mongoDB,
@@ -290,10 +292,10 @@ app.post("/replypost", (response,request)=> {
           .update({uuid:keyParam}, { $push: { replys: 
             {   author:response.body.authorr,
                 comment:response.body.commentr,
-                opID:uuid,
+                opID:keyParam,
                 uuuid:uuidv4(),
                 date:longDate,
-                replys:[]
+                replis:[]
                 } }})
           console.log("comment added to: " + keyParam)
         //   .sort(mysort)
@@ -319,11 +321,14 @@ app.post("/replypost", (response,request)=> {
 })
 
 
-app.post("/replyreplypost", (response,request)=> {   
-    //  console.log(response.body.opID)
-    let keyParam = response.body.opID;
+app.post("/replyreplypost", (response,request)=> { 
+  const don = response.body.uuuid.split("+")  ;
+  const donus = don[0]; 
+  const danus = don[1];
+     console.log(danus)
+    let keyParam = response.body.uuuid;
 
-console.log(keyParam)
+// console.log(keyParam)
     MongoClient.connect(
       mongoDB,
       { useNewUrlParser: true, useUnifiedTopology: true },
@@ -333,15 +338,16 @@ console.log(keyParam)
         var mysort = { date: 1 };
         dbo
           .collection("Forum")
-          .update({uuuid:keyParam}, { $push: { replys: 
+          .updateOne({replys:{$elemMatch:{uuuid:donus}}}, { $push: { "replys.$.replis": 
             {   
                   author:response.body.authorr,
                   comment:response.body.commentr,
+                  opID:donus,
+                  oppID:danus,
                   uuuuid:uuidv4(),
                   date:longDate,
-                  replys:[]
                 } }})
-          console.log("comment added to: " + keyParam)
+          // console.log("comment added to: " + keyParam)
         //   .sort(mysort)
         //   .toArray(function (err, result) {
         //     if (err) throw err;
@@ -359,7 +365,7 @@ console.log(keyParam)
         //   });
     })
     setTimeout(() => {
-        request.redirect(`/post${keyParam}`);
+        request.redirect(`/post${danus}`);
         
     }, 300);  
 })
