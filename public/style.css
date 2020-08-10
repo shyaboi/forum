@@ -32,7 +32,6 @@
     background-image: var(--grad);
     background-size: 600%;
     animation: bg-ani 40s infinite alternate;
-    font-weight: 600;
   }
   #toggle-animation{
     background-image: var(--grad);
@@ -95,11 +94,19 @@
   }
 
   #forumBox{
+    font-size: 27px;
     padding-top:6rem;
   }
 
   h1{
     font-family: 'Cinzel', serif;
 color: #336A6C;
-font-weight: 600;
+font-weight: 549;
+font-size: 40px;
+  }
+
+  #authName{
+    color: #0076B8;
+    font-family: 'Cinzel', serif;
+    font-size: 44px;
   }
