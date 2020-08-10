@@ -29,6 +29,7 @@ var NewPost = new Schema({
   title: String,
   avatar: String,
   authour: String,
+  dateUp:String,
   date: String,
   comment: String,
   replys: Array,
@@ -37,11 +38,6 @@ var NewPost = new Schema({
   ip: String,
 });
 
-// -----------------------------------------------------date constructor
-
-// console.log(longDate);
-
-// -----------------------------------------------------date constructor
 
 var Model = mongoose.model("NewPost", NewPost);
 
@@ -96,7 +92,7 @@ app.get("/forum", (request, response) => {
       function (err, db) {
         if (err) throw err;
         var dbo = db.db("donu");
-        var mysort = { date: -1 };
+        var mysort = {dateUp:-1}
         dbo
           .collection("Forum")
           .find({})
@@ -211,21 +207,21 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 app.post("/postpost", (request, response) => {
-  const longDate = moment().format();
   let ip =
-    request.header("x-forwarded-for") || request.connection.remoteAddress;
-
+  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  
   const title = request.body.title;
   const comment = request.body.comment;
   const author = request.body.author;
   const uuuid = uuidv4();
   const avatar = request.body.avatar;
-  console.log(longDate);
+  const longDate = moment().format();
   const mongoModle = new Model({
     title: `${title}`,
     avatar:avatar||"https://placekitten.com/96/139",
     authour: author,
     date: longDate,
+    dateUp:longDate,
     comment: `${comment}`,
     replys: [],
     uuid: uuuid,
@@ -279,23 +275,23 @@ app.post("/replypost", (response, request) => {
               replis: [],
             },
           },
+          $set:{dateUp:longDate}
         }
       );
       console.log("comment added to: " + keyParam);
-      //   .sort(mysort)
-      //   .toArray(function (err, result) {
-      //     if (err) throw err;
-      //     const results = result.map((post) => {
-      //       return post;
-      //     });
-      //     const postData = results[0]
-      //     // const postReply = results[0].replys
-
-      //         console.log(postData)
-
-      //   });
     }
   );
+
+
+
+
+
+
+
+
+
+
+  
   setTimeout(() => {
     request.redirect(`/post${keyParam}`);
   }, 300);
@@ -331,6 +327,7 @@ app.post("/replyreplypost", (response, request) => {
               date: longDate,
             },
           },
+          $set:{dateUp:longDate}
         }
       );
       // console.log("comment added to: " + keyParam)
