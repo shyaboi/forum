@@ -17,6 +17,7 @@ const { json } = require("body-parser");
 var db = mongoose.connection;
 const { v4: uuidv4 } = require("uuid");
 const { ok } = require("assert");
+const Request = require("request");
 // Define a custom namespace.  Readers, create your own using something like
 
 var Schema = mongoose.Schema;
@@ -56,18 +57,23 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
-
+var bod
 app.get(`/iploc`, (req, response) => {
   const ip = req.header("x-forwarded-for") || req.connection.remoteAddress;
   console.log(ip)
-  var Request = require("request");
   Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
       if(error) {
           return console.dir(error);
       }
-      console.dir(JSON.parse(body));
-  });
-})
+      console.log(body);
+    bod = JSON.parse(body)
+    });
+    console.log(bod)
+        response.render(`home`, {
+          bod:bod
+        
+        });
+    })
 
     
 app.get("/forum", (request, response) => {
