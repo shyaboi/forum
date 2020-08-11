@@ -224,7 +224,8 @@ app.get("/newpost", (request, response) => {
 });
 app.post("/postpost", (request, response) => {
   const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
-  const ip = ipp.slice(7)
+  console.log(ipp)
+  // const ip = ipp.slice(7)
   
   const title = request.body.title;
   const comment = request.body.comment;
