@@ -1,26 +1,26 @@
-var fs = require("fs");
-var path = require("path");
-var express = require("express");
-var app = express();
-var router = express.Router();
+const fs = require("fs");
+const path = require("path");
+const express = require("express");
+const app = express();
+const router = express.Router();
 const PORT = process.env.PORT || 5000;
 require("dotenv").config();
 const donus = process.env.MONGO_THING;
-var exphbs = require("express-handlebars");
-var helpers = require("handlebars-helpers")();
-var bodyParser = require("body-parser");
+const exphbs = require("express-handlebars");
+const helpers = require("handlebars-helpers")();
+const bodyParser = require("body-parser");
 const { MongoClient } = require("mongodb");
 // const NewPost = require("./models/models")
 const mongoDB = `mongodb+srv://shyaboi:${donus}@cluster0.zqw64.azure.mongodb.net/donu?retryWrites=true&w=majority`;
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const { json } = require("body-parser");
-var db = mongoose.connection;
+const db = mongoose.connection;
 const { v4: uuidv4 } = require("uuid");
 const { ok } = require("assert");
 const Request = require("request");
 // Define a custom namespace.  Readers, create your own using something like
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 app.use(express.static("public/views/layouts"));
 
@@ -319,6 +319,9 @@ app.post("/replypost", (response, request) => {
 });
 
 app.post("/replyreplypost", (response, request) => {
+  const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;
+  console.log(ipp)
+  const ip = ipp.slice(7)
   const longDate = moment().format();
   const don = response.body.uuuid.split("+");
   const donus = don[0];
@@ -346,6 +349,7 @@ app.post("/replyreplypost", (response, request) => {
               oppID: danus,
               uuuuid: uuidv4(),
               date: longDate,
+              ip:ip
             },
           },
           $set:{dateUp:longDate}
