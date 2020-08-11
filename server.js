@@ -65,8 +65,9 @@ var moment = require("moment"); // require
 
 var bod
 app.get(`/iploc`, (req, response) => {
-  const ip = req.header("x-forwarded-for") || req.connection.remoteAddress;
-  console.log(ip.slice(5))
+  const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
+const ip = ipp.slice(7)
+  console.log()
   Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
       if(error) {
           return console.dir(error);
