@@ -73,7 +73,9 @@ app.get(`/iploc`, (req, response) => {
 
     
 app.get("/forum", (request, response) => {
-
+  server.listen(() => {
+    console.log('opened server on', server.address());
+  });
   const ip =
     request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip2 =
@@ -361,6 +363,11 @@ const server = net.createServer((socket) => {
 server.listen(() => {
   console.log('opened server on', server.address());
 });
+
+require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+  console.log('addr: '+add);
+})
+
 app.listen(PORT);
 console.log("server started on " + PORT);
 // const mongoDB = `mongodb+srv://shyaboi:${donus}@cluster0.zqw64.azure.mongodb.net/donu?retryWrites=true&w=majority`;
