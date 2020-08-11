@@ -264,10 +264,10 @@ app.post("/postpost", (request, response) => {
 });
 
 app.post("/replypost", (response, request) => {
-  const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;
   console.log(ipp)
 
-  // const ip = ipp.slice(7)
+  const ip = ipp.slice(7)
   console.log(response.body);
   let keyParam = response.body.opID;
   // const uuid = response.body.uuid
