@@ -349,7 +349,18 @@ app.post("/replyreplypost", (response, request) => {
     request.redirect(`/post${danus}`);
   }, 300);
 });
+const net = require('net');
+const server = net.createServer((socket) => {
+  socket.end('goodbye\n');
+}).on('error', (err) => {
+  // Handle errors here.
+  throw err;
+});
 
+// Grab an arbitrary unused port.
+server.listen(() => {
+  console.log('opened server on', server.address());
+});
 app.listen(PORT);
 console.log("server started on " + PORT);
 // const mongoDB = `mongodb+srv://shyaboi:${donus}@cluster0.zqw64.azure.mongodb.net/donu?retryWrites=true&w=majority`;
