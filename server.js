@@ -98,17 +98,9 @@ const ip = ipp.slice(7)
 
 app.get("/forum", (request, response) => {
  
-  const ip =
-    request.header("x-forwarded-for") || request.connection.remoteAddress;
-  const ip2 =
-    request.headers["x-forwarded-for"] ||
-    request.connection.remoteAddress ||
-    request.socket.remoteAddress ||
-    (request.connection.socket
-      ? request.connection.socket.remoteAddress
-      : null);
+  const ipp = request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7);
   console.log("ip1:" + ip);
-  console.log("ip2:" + ip2);
   const getAll = () => {
     MongoClient.connect(
       mongoDB,
@@ -231,7 +223,8 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 app.post("/postpost", (request, response) => {
-  let ip =  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  let ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7)
   
   const title = request.body.title;
   const comment = request.body.comment;
@@ -271,6 +264,8 @@ app.post("/postpost", (request, response) => {
 });
 
 app.post("/replypost", (response, request) => {
+  let ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7)
   console.log(response.body);
   let keyParam = response.body.opID;
   // const uuid = response.body.uuid
@@ -296,6 +291,7 @@ app.post("/replypost", (response, request) => {
               uuuid: uuidv4(),
               date: longDate,
               replis: [],
+              ip:ip
             },
           },
           $set:{dateUp:longDate}
