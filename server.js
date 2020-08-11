@@ -73,9 +73,7 @@ app.get(`/iploc`, (req, response) => {
 
     
 app.get("/forum", (request, response) => {
-  server.listen(() => {
-    console.log('opened server on', server.address());
-  });
+ 
   const ip =
     request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip2 =
@@ -360,9 +358,7 @@ const server = net.createServer((socket) => {
 });
 
 // Grab an arbitrary unused port.
-server.listen(() => {
-  console.log('opened server on', server.address());
-});
+
 
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
   console.log('addr: '+add);
