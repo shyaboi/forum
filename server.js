@@ -53,10 +53,20 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
+
+
+
+
+
+
+
+
+
+
 var bod
 app.get(`/iploc`, (req, response) => {
   const ip = req.header("x-forwarded-for") || req.connection.remoteAddress;
-  console.log(ip)
+  console.log(ip.slice(5))
   Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
       if(error) {
           return console.dir(error);
@@ -64,7 +74,7 @@ app.get(`/iploc`, (req, response) => {
       console.log(body);
     bod = JSON.parse(body)
     });
-    console.log(bod)
+    // console.log(bod)
         response.render(`home`, {
           bod:bod
         
@@ -72,6 +82,19 @@ app.get(`/iploc`, (req, response) => {
     })
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get("/forum", (request, response) => {
  
   const ip =
@@ -207,8 +230,7 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 app.post("/postpost", (request, response) => {
-  let ip =
-  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  let ip =  request.header("x-forwarded-for") || request.connection.remoteAddress;
   
   const title = request.body.title;
   const comment = request.body.comment;
