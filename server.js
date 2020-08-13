@@ -222,7 +222,7 @@ app.get(`/regionBoard`, (req, response) => {
     console.log(JSON.parse(body));
   bod = JSON.parse(body);
   flag = bod.country_flag;
-  region = bod.country_flag
+  region = bod.region
   console.log(bod.country_flag,bod.region)
   });
   const getAll = () => {
