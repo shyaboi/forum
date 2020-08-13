@@ -70,12 +70,19 @@
                 <hr>
                 <div class="uk-container">
                     <div id="postBox">
+                        
                         <h1 class="uk-margin-remove"><a class="uk-link-reset" href="#">{{this.title}}</a></h1>
 
                         <hr class="uk-divider-small">
                         <article class="uk-comment uk-visible-toggle" tabindex="-1">
                             <header class="uk-comment-header uk-position-relative">
                                 <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                        <div class="uk-position-top-right uk-position-small">                 
+                        <img src={{this.flag}} width="80" height="80">
+                                </img>
+                                {{this.region}}
+                                </div>
+                       
                                     <div class="uk-width-auto">
                                         <img class="uk-comment-avatar" src={{this.avatar}} width="400" height="400"
                                             alt="">
@@ -124,9 +131,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="uk-position-top-right uk-position-small">
-                                    upboat ^
-                                </div>
+                                <div class="uk-position-bottom-right uk-position-small">^</div>
+                               
+                                <div class="uk-position-bottom-right uk-position-small">⌄</div>
                             </header>
                         </article>
                         <div class="uk-comment-body">
@@ -140,5 +147,6 @@
 
                         <hr class="uk-divider-icon">
 </div>
+                                 
                         {{/each}}
                     </div>

@@ -37,7 +37,8 @@ var NewPost = new Schema({
   opID: String,
   ip: String,
   flag:String,
-  region:String
+  region:String,
+  city:String
 });
 
 
@@ -334,7 +335,8 @@ app.post("/newRegionPost", (request, response) => {
     uuid: uuuid,
     ip: ip,
     flag:flag,
-    region:region
+    region:region,
+    city:city
   });
   MongoClient.connect(
     mongoDB,
@@ -440,19 +442,6 @@ app.post("/replyreplypost", (response, request) => {
           $set:{dateUp:longDate}
         }
       );
-      // console.log("comment added to: " + keyParam)
-      //   .sort(mysort)
-      //   .toArray(function (err, result) {
-      //     if (err) throw err;
-      //     const results = result.map((post) => {
-      //       return post;
-      //     });
-      //     const postData = results[0]
-      //     // const postReply = results[0].replys
-
-      //         console.log(postData)
-
-      //   });
     }
   );
   setTimeout(() => {
