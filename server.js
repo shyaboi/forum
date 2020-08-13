@@ -210,6 +210,7 @@ app.get("/newpost", (request, response) => {
 let bod
 let region
 let flag
+let city
 app.get(`/regionBoard`, (req, response) => {
 
   const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
