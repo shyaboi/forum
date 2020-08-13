@@ -36,6 +36,8 @@ var NewPost = new Schema({
   uuid: String,
   opID: String,
   ip: String,
+  flag:String,
+  region:String
 });
 
 
@@ -220,6 +222,7 @@ app.get(`/regionBoard`, (req, response) => {
     console.log(JSON.parse(body));
   bod = JSON.parse(body);
   flag = bod.country_flag;
+  region = bod.country_flag
   console.log(bod.country_flag,bod.region)
   });
   const getAll = () => {
@@ -303,7 +306,17 @@ app.post("/postpost", (request, response) => {
 app.post("/newRegionPost", (request, response) => {
   const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip = ipp.slice(7)
-  
+  Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
+    if(error) {
+        return console.dir(error);
+    }
+    console.log(JSON.parse(body));
+  bod = JSON.parse(body);
+  flag = bod.country_flag;
+  region = bod.country_flag
+  console.log(bod.country_flag,bod.region)
+  });
+
   const title = request.body.title;
   const comment = request.body.comment;
   const author = request.body.author;
@@ -320,6 +333,8 @@ app.post("/newRegionPost", (request, response) => {
     replys: [],
     uuid: uuuid,
     ip: ip,
+    flag:flag,
+    region:region
   });
   MongoClient.connect(
     mongoDB,
