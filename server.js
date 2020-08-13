@@ -312,9 +312,9 @@ app.post("/newRegionPost", (request, response) => {
     }
     console.log(JSON.parse(body));
   bod = JSON.parse(body);
-  flag = bod.country_flag;
-  region = bod.country_flag
   console.log(bod.country_flag,bod.region)
+  flag = bod.country_flag;
+  region = bod.region;
   });
 
   const title = request.body.title;
