@@ -63,25 +63,6 @@ var moment = require("moment"); // require
 
 
 
-var bod
-app.get(`/iploc`, (req, response) => {
-  const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
-const ip = ipp.slice(7)
-  console.log()
-  Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
-      if(error) {
-          return console.dir(error);
-      }
-      console.log(body);
-    bod = JSON.parse(body)
-    });
-    // console.log(bod)
-        response.render(`home`, {
-          bod:bod
-        
-        });
-    })
-
     
 
 
@@ -222,6 +203,63 @@ app.get("/", (request, response) => {
 app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
+
+let bod
+let region
+let flag
+app.get(`/regionBoard`, (req, response) => {
+
+  const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
+  const ip = ipp.slice(7);
+  console.log("ip1:" + ip);
+
+  Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
+    if(error) {
+        return console.dir(error);
+    }
+    console.log(JSON.parse(body));
+  bod = JSON.parse(body);
+  flag = bod.country_flag;
+  console.log(bod.country_flag,bod.region)
+  });
+  const getAll = () => {
+    MongoClient.connect(
+      mongoDB,
+      { useNewUrlParser: true, useUnifiedTopology: true },
+      function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("donu");
+        var mysort = {dateUp:-1}
+        dbo
+          .collection("RegionBoard")
+          .find({})
+          .sort(mysort)
+          .toArray(function (err, result) {
+            if (err) throw err;
+            const results = result.map((wall) => {
+              return wall;
+            });
+            const fileName = results;
+        
+            db.close();
+
+         
+
+            response.render(`regionBoard`, {
+              fileName: fileName,
+              bod:bod
+            });
+          });
+      }
+    );
+  };
+  getAll();
+  // console.log(ok)
+  
+
+   
+    })
+
 app.post("/postpost", (request, response) => {
   const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip = ipp.slice(7)
@@ -243,7 +281,6 @@ app.post("/postpost", (request, response) => {
     uuid: uuuid,
     ip: ip,
   });
-
   MongoClient.connect(
     mongoDB,
     { useNewUrlParser: true, useUnifiedTopology: true },
@@ -262,6 +299,49 @@ app.post("/postpost", (request, response) => {
     response.redirect(`/post${uuuid}`);
   }, 300);
 });
+
+app.post("/newRegionPost", (request, response) => {
+  const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7)
+  
+  const title = request.body.title;
+  const comment = request.body.comment;
+  const author = request.body.author;
+  const uuuid = uuidv4();
+  const avatar = request.body.avatar;
+  const longDate = moment().format();
+  const mongoModle = new Model({
+    title: `${title}`,
+    avatar:avatar||"https://placekitten.com/96/139",
+    authour: author,
+    date: longDate,
+    dateUp:longDate,
+    comment: `${comment}`,
+    replys: [],
+    uuid: uuuid,
+    ip: ip,
+  });
+  MongoClient.connect(
+    mongoDB,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    function (err, db) {
+      if (err) throw err;
+      var dbo = db.db("donu");
+      var myobj = mongoModle;
+      dbo.collection("RegionBoard").insertOne(myobj, function (err, res) {
+        if (err) throw err;
+        console.log("\x1b[36m", "1 document inserted");
+        db.close();
+      });
+    }
+  );
+  setTimeout(() => {
+    response.redirect(`/post${uuuid}`);
+  }, 300);
+});
+
+
+
 
 app.post("/replypost", (response, request) => {
   const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;
@@ -302,21 +382,11 @@ app.post("/replypost", (response, request) => {
       console.log("comment added to: " + keyParam);
     }
   );
-
-
-
-
-
-
-
-
-
-
-  
   setTimeout(() => {
     request.redirect(`/post${keyParam}`);
   }, 300);
 });
+
 
 app.post("/replyreplypost", (response, request) => {
   const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;

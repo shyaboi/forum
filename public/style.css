@@ -142,3 +142,22 @@ font-size: 40px;
     font-family: 'Cinzel', serif;
     font-size: 44px;
   }
+
+  #ipBox{
+    opacity: .2;
+    top: 0;
+    right: 0;
+    position: absolute;
+    width: 300px ;
+  transition:1s;
+  align-items: flex-end;
+  text-align: end;
+
+  }
+
+  #ipBox:hover{
+    transition:.5s;
+
+    opacity: 1;
+
+  }

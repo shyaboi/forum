@@ -1,3 +1,4 @@
+
 <div class="uk-container" id="nav">
 
     <button class="uk-button uk-button-default" id="navButt" type="button"><svg viewBox="0 0 100 80" width="40"
@@ -11,7 +12,7 @@
             <li><a href="/newpost">New Post(big)</a></li>
             <li class="uk-nav-divider"></li>
             <li class="uk-nav-header">The Forums</li>
-            <li><a href="/regionBoard">Region Board</a></li>
+            <li><a href="/forum">Home Board</a></li>
         </ul>
     </div>
 
@@ -19,7 +20,7 @@
     <button href="#toggle-animation" class="uk-button uk-button-default hidden right" type="button"
         uk-toggle="  target: #toggle-animation; hidden; animation: uk-animation-fade">New Post</button>
     <div id="toggle-animation" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden>
-        <form action="postpost" method="POST">
+        <form action="newRegionPost" method="POST">
             <div class="uk-margin">
                 <input class="uk-input" name="title" type="text" placeholder="Title" value="">
             </div>
@@ -46,6 +47,20 @@
 </a>
 </div>
 </div>
+
+{{#with bod}}
+    <div class="uk-container right" id="ipBox">
+    <img class="uk-comment-avatar right" src={{this.country_flag}} width="150" height="150" alt="">
+                    <div class="uk-width-expand top-right">
+                      
+                        <h5 class="uk-comment-title uk-margin-remove">{{this.region}}</h5>
+                        <h5 class="uk-comment-title uk-margin-remove">{{this.city}}</h5>
+                        <h5 class="uk-comment-title uk-margin-remove">{{this.isp}}</h5>
+                        <h5 class="uk-comment-title uk-margin-remove">latitude:{{this.latitude}}</h5>
+                        <h5 class="uk-comment-title uk-margin-remove">longitude:{{this.longitude}}</h5>
+                    </div>
+                    </div>
+                    {{/with}}
 <div class="uk-container" id="forumBox">
     <hr>
     <div class="uk-container">
