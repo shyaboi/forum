@@ -312,9 +312,9 @@ app.post("/newRegionPost", (request, response) => {
     }
     console.log(JSON.parse(body));
   bod = JSON.parse(body);
-  flag = bod.country_flag;
-  region = bod.region
   console.log(bod.country_flag,bod.region)
+  flag = bod.country_flag;
+  region = bod.region;
   });
 
   const title = request.body.title;
@@ -328,7 +328,7 @@ app.post("/newRegionPost", (request, response) => {
     avatar:avatar||"https://placekitten.com/96/139",
     authour: author,
     date: longDate,
-    dateUp:longDate,
+    dateUp:longDate,♦
     comment: `${comment}`,
     replys: [],
     uuid: uuuid,
