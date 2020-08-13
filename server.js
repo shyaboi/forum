@@ -224,6 +224,7 @@ app.get(`/regionBoard`, (req, response) => {
   bod = JSON.parse(body);
   flag = bod.country_flag;
   region = bod.region
+  city = bod.city
   console.log(bod.country_flag,bod.region)
   });
   const getAll = () => {
