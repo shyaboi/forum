@@ -13,14 +13,28 @@ const { MongoClient } = require("mongodb");
 // const NewPost = require("./models/models")
 const mongoDB = `mongodb+srv://shyaboi:${donus}@cluster0.zqw64.azure.mongodb.net/donu?retryWrites=true&w=majority`;
 const mongoose = require("mongoose");
-const { json } = require("body-parser");
 const db = mongoose.connection;
+const Schema = mongoose.Schema;
+mongoose
+  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("DB Popped! from forum"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+
+
+
+
+
+
+  
+const { json } = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const { ok } = require("assert");
 const Request = require("request");
 // Define a custom namespace.  Readers, create your own using something like
 
-const Schema = mongoose.Schema;
 
 app.use(express.static("public/views/layouts"));
 
@@ -29,27 +43,20 @@ var NewPost = new Schema({
   title: String,
   avatar: String,
   authour: String,
-  dateUp:String,
+  dateUp: String,
   date: String,
   comment: String,
   replys: Array,
   uuid: String,
   opID: String,
   ip: String,
-  flag:String,
-  region:String,
-  city:String
+  flag: String,
+  region: String,
+  city: String,
 });
-
 
 var Model = mongoose.model("NewPost", NewPost);
 
-mongoose
-  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("DB Popped! from forum"))
-  .catch((err) => {
-    console.log(err);
-  });
 
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
@@ -57,32 +64,9 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get("/forum", (request, response) => {
- 
-  const ipp = request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ipp =
+    request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip = ipp.slice(7);
   console.log("ip1:" + ip);
   const getAll = () => {
@@ -92,7 +76,7 @@ app.get("/forum", (request, response) => {
       function (err, db) {
         if (err) throw err;
         var dbo = db.db("donu");
-        var mysort = {dateUp:-1}
+        var mysort = { dateUp: -1 };
         dbo
           .collection("Forum")
           .find({})
@@ -207,26 +191,25 @@ app.get("/newpost", (request, response) => {
   response.render(`newpost`);
 });
 
-let bod
-let region
-let flag
-let city
+let bod;
+let region;
+let flag;
+let city;
 app.get(`/regionBoard`, (req, response) => {
-
   const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
   const ip = ipp.slice(7);
   console.log("ip1:" + ip);
 
   Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
-    if(error) {
-        return console.dir(error);
+    if (error) {
+      return console.dir(error);
     }
     console.log(JSON.parse(body));
-  bod = JSON.parse(body);
-  flag = bod.country_flag;
-  region = bod.region
-  city = bod.city
-  console.log(bod.country_flag,bod.region)
+    bod = JSON.parse(body);
+    flag = bod.country_flag;
+    region = bod.region;
+    city = bod.city;
+    console.log(bod.country_flag, bod.region);
   });
   const getAll = () => {
     MongoClient.connect(
@@ -235,7 +218,7 @@ app.get(`/regionBoard`, (req, response) => {
       function (err, db) {
         if (err) throw err;
         var dbo = db.db("donu");
-        var mysort = {dateUp:-1}
+        var mysort = { dateUp: -1 };
         dbo
           .collection("RegionBoard")
           .find({})
@@ -246,14 +229,12 @@ app.get(`/regionBoard`, (req, response) => {
               return wall;
             });
             const fileName = results;
-        
-            db.close();
 
-         
+            db.close();
 
             response.render(`regionBoard`, {
               fileName: fileName,
-              bod:bod
+              bod: bod,
             });
           });
       }
@@ -261,15 +242,13 @@ app.get(`/regionBoard`, (req, response) => {
   };
   getAll();
   // console.log(ok)
-  
-
-   
-    })
+});
 
 app.post("/postpost", (request, response) => {
-  const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
-  const ip = ipp.slice(7)
-  
+  const ipp =
+    request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7);
+
   const title = request.body.title;
   const comment = request.body.comment;
   const author = request.body.author;
@@ -278,10 +257,10 @@ app.post("/postpost", (request, response) => {
   const longDate = moment().format();
   const mongoModle = new Model({
     title: `${title}`,
-    avatar:avatar||"https://placekitten.com/96/139",
+    avatar: avatar || "https://placekitten.com/96/139",
     authour: author,
     date: longDate,
-    dateUp:longDate,
+    dateUp: longDate,
     comment: `${comment}`,
     replys: [],
     uuid: uuuid,
@@ -307,19 +286,19 @@ app.post("/postpost", (request, response) => {
 });
 
 app.post("/newRegionPost", (request, response) => {
-  const ipp =  request.header("x-forwarded-for") || request.connection.remoteAddress;
-  const ip = ipp.slice(7)
+  const ipp =
+    request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7);
   Request.get(`http://ipwhois.app/json/${ip}`, (error, response, body) => {
-    if(error) {
-        return console.dir(error);
+    if (error) {
+      return console.dir(error);
     }
     console.log(JSON.parse(body));
-  bod = JSON.parse(body);
-  // console.log(bod.country_flag,bod.region)
-  flag = bod.country_flag;
-  region = bod.region;
-  city = bod.city
-
+    bod = JSON.parse(body);
+    // console.log(bod.country_flag,bod.region)
+    flag = bod.country_flag;
+    region = bod.region;
+    city = bod.city;
   });
 
   const title = request.body.title;
@@ -330,17 +309,17 @@ app.post("/newRegionPost", (request, response) => {
   const longDate = moment().format();
   const mongoModle = new Model({
     title: `${title}`,
-    avatar:avatar||"https://placekitten.com/96/139",
+    avatar: avatar || "https://placekitten.com/96/139",
     authour: author,
     date: longDate,
-    dateUp:longDate,
+    dateUp: longDate,
     comment: `${comment}`,
     replys: [],
     uuid: uuuid,
     ip: ip,
-    flag:flag,
-    region:region,
-    city:city
+    flag: flag,
+    region: region,
+    city: city,
   });
   MongoClient.connect(
     mongoDB,
@@ -361,14 +340,12 @@ app.post("/newRegionPost", (request, response) => {
   }, 300);
 });
 
-
-
-
 app.post("/replypost", (response, request) => {
-  const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;
-  console.log(ipp)
+  const ipp =
+    response.header("x-forwarded-for") || response.connection.remoteAddress;
+  console.log(ipp);
 
-  const ip = ipp.slice(7)
+  const ip = ipp.slice(7);
   console.log(response.body);
   let keyParam = response.body.opID;
   // const uuid = response.body.uuid
@@ -394,10 +371,10 @@ app.post("/replypost", (response, request) => {
               uuuid: uuidv4(),
               date: longDate,
               replis: [],
-              ip:ip
+              ip: ip,
             },
           },
-          $set:{dateUp:longDate}
+          $set: { dateUp: longDate },
         }
       );
       console.log("comment added to: " + keyParam);
@@ -408,11 +385,11 @@ app.post("/replypost", (response, request) => {
   }, 300);
 });
 
-
 app.post("/replyreplypost", (response, request) => {
-  const ipp =  response.header("x-forwarded-for") || response.connection.remoteAddress;
-  console.log(ipp)
-  const ip = ipp.slice(7)
+  const ipp =
+    response.header("x-forwarded-for") || response.connection.remoteAddress;
+  console.log(ipp);
+  const ip = ipp.slice(7);
   const longDate = moment().format();
   const don = response.body.uuuid.split("+");
   const donus = don[0];
@@ -420,7 +397,7 @@ app.post("/replyreplypost", (response, request) => {
   console.log(danus);
   let keyParam = response.body.uuuid;
 
-  const avatar = response.body.avatar
+  const avatar = response.body.avatar;
   MongoClient.connect(
     mongoDB,
     { useNewUrlParser: true, useUnifiedTopology: true },
@@ -440,10 +417,10 @@ app.post("/replyreplypost", (response, request) => {
               oppID: danus,
               uuuuid: uuidv4(),
               date: longDate,
-              ip:ip
+              ip: ip,
             },
           },
-          $set:{dateUp:longDate}
+          $set: { dateUp: longDate },
         }
       );
     }
@@ -452,20 +429,21 @@ app.post("/replyreplypost", (response, request) => {
     request.redirect(`/post${danus}`);
   }, 300);
 });
-const net = require('net');
-const server = net.createServer((socket) => {
-  socket.end('goodbye\n');
-}).on('error', (err) => {
-  // Handle errors here.
-  throw err;
-});
+const net = require("net");
+const server = net
+  .createServer((socket) => {
+    socket.end("goodbye\n");
+  })
+  .on("error", (err) => {
+    // Handle errors here.
+    throw err;
+  });
 
 // Grab an arbitrary unused port.
 
-
-require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-  console.log('addr: '+add);
-})
+require("dns").lookup(require("os").hostname(), function (err, add, fam) {
+  console.log("addr: " + add);
+});
 
 app.listen(PORT);
 console.log("server started on " + PORT);
