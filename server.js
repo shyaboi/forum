@@ -9,6 +9,8 @@ const donus = process.env.MONGO_THING;
 const exphbs = require("express-handlebars");
 const helpers = require("handlebars-helpers")();
 const bodyParser = require("body-parser");
+const favicon = require('serve-favicon');
+
 const { MongoClient } = require("mongodb");
 // const NewPost = require("./models/models")
 const mongoDB = `mongodb+srv://shyaboi:${donus}@cluster0.zqw64.azure.mongodb.net/donu?retryWrites=true&w=majority`;
@@ -60,6 +62,8 @@ var Model = mongoose.model("NewPost", NewPost);
 
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
+app.use(favicon('./favicon.ico'));
+
 app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
