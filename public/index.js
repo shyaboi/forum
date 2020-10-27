@@ -1,7 +1,7 @@
 console.log("js is working")
-const al = ()=> {
-    alert("Chat rooms and authentication coming soon!")
-}
+// const al = ()=> {
+//     alert("Chat rooms and authentication coming soon!")
+// }
 $(function() {
     $('.lazy').Lazy({
         // your configuration goes here
