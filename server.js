@@ -68,51 +68,51 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
 
-// app.get("/forum", (request, response) => {
-//   const ipp =
-//     request.header("x-forwarded-for") || request.connection.remoteAddress;
-//   const ip = ipp.slice(7);
-//   console.log("ip1:" + ip);
-//   const getAll = () => {
-//     MongoClient.connect(
-//       mongoDB,
-//       { useNewUrlParser: true, useUnifiedTopology: true },
-//       function (err, db) {
-//         if (err) throw err;
-//         var dbo = db.db("donu");
-//         var mysort = { dateUp: -1 };
-//         dbo
-//           .collection("Forum")
-//           .find({})
-//           .sort(mysort)
-//           .toArray(function (err, result) {
-//             if (err) throw err;
-//             // for (let i = 0; i < result.length; i++) {
-//             //   const all = result[i];
-//             // console.log("\x1b[35m", element.name);
-//             // var getAl = all.name
-//             // console.log(getAl)
-//             const results = result.map((wall) => {
-//               return wall;
-//             });
-//             const fileName = results;
-//             // for (let i = 0; i < fileName.length; i++) {
-//             //   const element = JSON.stringify(fileName[i].comment);
-//             //   console.log(element)
-//             // }
+app.get("/forum", (request, response) => {
+  const ipp =
+    request.header("x-forwarded-for") || request.connection.remoteAddress;
+  const ip = ipp.slice(7);
+  console.log("ip1:" + ip);
+  const getAll = () => {
+    MongoClient.connect(
+      mongoDB,
+      { useNewUrlParser: true, useUnifiedTopology: true },
+      function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("donu");
+        var mysort = { dateUp: -1 };
+        dbo
+          .collection("Forum")
+          .find({})
+          .sort(mysort)
+          .toArray(function (err, result) {
+            if (err) throw err;
+            // for (let i = 0; i < result.length; i++) {
+            //   const all = result[i];
+            // console.log("\x1b[35m", element.name);
+            // var getAl = all.name
+            // console.log(getAl)
+            const results = result.map((wall) => {
+              return wall;
+            });
+            const fileName = results;
+            // for (let i = 0; i < fileName.length; i++) {
+            //   const element = JSON.stringify(fileName[i].comment);
+            //   console.log(element)
+            // }
 
-//             // }
-//             db.close();
-//             response.render(`forum`, {
-//               fileName: fileName,
-//             });
-//           });
-//       }
-//     );
-//   };
-//   getAll();
-//   // console.log(ok)
-// });
+            // }
+            db.close();
+            response.render(`forum`, {
+              fileName: fileName,
+            });
+          });
+      }
+    );
+  };
+  getAll();
+  // console.log(ok)
+});
 
 app.get("/forum/post:postid?", (request, response) => {
   // console.log(request.query.name)
@@ -148,48 +148,48 @@ app.get("/forum/post:postid?", (request, response) => {
   );
 });
 
-app.get("/forum/", (request, response) => {
-  const getAll = () => {
-    MongoClient.connect(
-      mongoDB,
-      { useNewUrlParser: true, useUnifiedTopology: true },
-      function (err, db) {
-        if (err) throw err;
-        var dbo = db.db("donu");
-        var mysort = { date: 1 };
-        dbo
-          .collection("Forum")
-          .find({
-            replys: {
-              $elemMatch: { uuuid: "0372d7e9-a6d0-4de2-b0e3-b0e517a142e4" },
-            },
-          })
-          .sort(mysort)
-          .toArray(function (err, result) {
-            if (err) throw err;
-            for (let i = 0; i < result.length; i++) {
-              var all = result[i];
-              console.log("\x1b[35m", all.replys);
-            }
-            // const results = result.map((wall) => {
-            //   return wall;
-            // });
-            // console.log(wall)
+// app.get("/forum/", (request, response) => {
+//   const getAll = () => {
+//     MongoClient.connect(
+//       mongoDB,
+//       { useNewUrlParser: true, useUnifiedTopology: true },
+//       function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("donu");
+//         var mysort = { date: 1 };
+//         dbo
+//           .collection("Forum")
+//           .find({
+//             replys: {
+//               $elemMatch: { uuuid: "0372d7e9-a6d0-4de2-b0e3-b0e517a142e4" },
+//             },
+//           })
+//           .sort(mysort)
+//           .toArray(function (err, result) {
+//             if (err) throw err;
+//             for (let i = 0; i < result.length; i++) {
+//               var all = result[i];
+//               console.log("\x1b[35m", all.replys);
+//             }
+//             // const results = result.map((wall) => {
+//             //   return wall;
+//             // });
+//             // console.log(wall)
 
-            const fileName = result;
-            // }
-            db.close();
-            response.render(`home`, {
-              fileName: fileName,
-              all: all,
-            });
-          });
-      }
-    );
-  };
-  getAll();
-  // console.log(ok)
-});
+//             const fileName = result;
+//             // }
+//             db.close();
+//             response.render(`home`, {
+//               fileName: fileName,
+//               all: all,
+//             });
+//           });
+//       }
+//     );
+//   };
+//   getAll();
+//   // console.log(ok)
+// });
 
 app.get("/forum/newpost", (request, response) => {
   response.render(`newpost`);
