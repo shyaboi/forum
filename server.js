@@ -40,7 +40,7 @@ const Request = require("request");
 
 app.use(express.static("public/views/layouts"));
 
-app.use(express.static(__dirname + "/forum/public"));
+app.use(express.static(__dirname + "/public"));
 var NewPost = new Schema({
   title: String,
   avatar: String,
@@ -285,7 +285,7 @@ app.post("/forum/postpost", (request, response) => {
     }
   );
   setTimeout(() => {
-    response.redirect(`/forum/post${uuuid}`);
+    response.redirect(`/post${uuuid}`);
   }, 300);
 });
 
