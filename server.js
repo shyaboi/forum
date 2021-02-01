@@ -285,7 +285,7 @@ app.post("/forum/postpost", (request, response) => {
     }
   );
   setTimeout(() => {
-    response.redirect(`/post${uuuid}`);
+    response.redirect(`/forum/post${uuuid}`);
   }, 300);
 });
 
