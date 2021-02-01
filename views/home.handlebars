@@ -3,17 +3,17 @@
 <button class="uk-button uk-button-default" id="navButt" type="button">Hover</button>
 <div uk-dropdown>
     <ul class="uk-nav uk-dropdown-nav">
-        <li><a href="/newpost">New Post</a></li>
+        <li><a href="/forum/newpost">New Post</a></li>
         <li class="uk-nav-divider"></li>
         <li class="uk-nav-header">The Forums</li>
         <li><a href="/forum">Board 1</a></li>
         <li class="uk-nav-header">Muhwalls</li>
-            <li><a href="http://dinguscrew.com:8080">Wallpapers</a></li>
+            <li><a href="http://dinguscrew.com/wallpapers">Wallpapers</a></li>
     </ul>
 </div>
 <a href="/iploc">iploc</a>
 <button href="#toggle-animation" class="uk-button uk-button-default hidden"  type="button"  uk-toggle="  target: #toggle-animation; hidden; animation: uk-animation-fade">Toggle</button>
-<div id="toggle-animation" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden><form action="postpost" method="POST">
+<div id="toggle-animation" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden><form action="forum/postpost" method="POST">
         <div class="uk-margin">
             <input class="uk-input" name="title" type="text" placeholder="Title" value="">
         </div>

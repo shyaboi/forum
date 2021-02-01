@@ -68,53 +68,53 @@ app.use(bodyParser.json()); // to support JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 var moment = require("moment"); // require
 
-app.get("/forum", (request, response) => {
-  const ipp =
-    request.header("x-forwarded-for") || request.connection.remoteAddress;
-  const ip = ipp.slice(7);
-  console.log("ip1:" + ip);
-  const getAll = () => {
-    MongoClient.connect(
-      mongoDB,
-      { useNewUrlParser: true, useUnifiedTopology: true },
-      function (err, db) {
-        if (err) throw err;
-        var dbo = db.db("donu");
-        var mysort = { dateUp: -1 };
-        dbo
-          .collection("Forum")
-          .find({})
-          .sort(mysort)
-          .toArray(function (err, result) {
-            if (err) throw err;
-            // for (let i = 0; i < result.length; i++) {
-            //   const all = result[i];
-            // console.log("\x1b[35m", element.name);
-            // var getAl = all.name
-            // console.log(getAl)
-            const results = result.map((wall) => {
-              return wall;
-            });
-            const fileName = results;
-            // for (let i = 0; i < fileName.length; i++) {
-            //   const element = JSON.stringify(fileName[i].comment);
-            //   console.log(element)
-            // }
+// app.get("/forum", (request, response) => {
+//   const ipp =
+//     request.header("x-forwarded-for") || request.connection.remoteAddress;
+//   const ip = ipp.slice(7);
+//   console.log("ip1:" + ip);
+//   const getAll = () => {
+//     MongoClient.connect(
+//       mongoDB,
+//       { useNewUrlParser: true, useUnifiedTopology: true },
+//       function (err, db) {
+//         if (err) throw err;
+//         var dbo = db.db("donu");
+//         var mysort = { dateUp: -1 };
+//         dbo
+//           .collection("Forum")
+//           .find({})
+//           .sort(mysort)
+//           .toArray(function (err, result) {
+//             if (err) throw err;
+//             // for (let i = 0; i < result.length; i++) {
+//             //   const all = result[i];
+//             // console.log("\x1b[35m", element.name);
+//             // var getAl = all.name
+//             // console.log(getAl)
+//             const results = result.map((wall) => {
+//               return wall;
+//             });
+//             const fileName = results;
+//             // for (let i = 0; i < fileName.length; i++) {
+//             //   const element = JSON.stringify(fileName[i].comment);
+//             //   console.log(element)
+//             // }
 
-            // }
-            db.close();
-            response.render(`forum`, {
-              fileName: fileName,
-            });
-          });
-      }
-    );
-  };
-  getAll();
-  // console.log(ok)
-});
+//             // }
+//             db.close();
+//             response.render(`forum`, {
+//               fileName: fileName,
+//             });
+//           });
+//       }
+//     );
+//   };
+//   getAll();
+//   // console.log(ok)
+// });
 
-app.get("/post:postid?", (request, response) => {
+app.get("/forum/post:postid?", (request, response) => {
   // console.log(request.query.name)
   let keyParam = request.params.postid;
 
@@ -148,7 +148,7 @@ app.get("/post:postid?", (request, response) => {
   );
 });
 
-app.get("/", (request, response) => {
+app.get("/forum/", (request, response) => {
   const getAll = () => {
     MongoClient.connect(
       mongoDB,
@@ -191,7 +191,7 @@ app.get("/", (request, response) => {
   // console.log(ok)
 });
 
-app.get("/newpost", (request, response) => {
+app.get("/forum/newpost", (request, response) => {
   response.render(`newpost`);
 });
 
@@ -248,7 +248,7 @@ app.get(`/regionBoard`, (req, response) => {
   // console.log(ok)
 });
 
-app.post("/postpost", (request, response) => {
+app.post("/forum/postpost", (request, response) => {
   const ipp =
     request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip = ipp.slice(7);
@@ -289,7 +289,7 @@ app.post("/postpost", (request, response) => {
   }, 300);
 });
 
-app.post("/newRegionPost", (request, response) => {
+app.post("/forum/newRegionPost", (request, response) => {
   const ipp =
     request.header("x-forwarded-for") || request.connection.remoteAddress;
   const ip = ipp.slice(7);
@@ -344,7 +344,7 @@ app.post("/newRegionPost", (request, response) => {
   }, 300);
 });
 
-app.post("/replypost", (response, request) => {
+app.post("/forum/replypost", (response, request) => {
   const ipp =
     response.header("x-forwarded-for") || response.connection.remoteAddress;
   console.log(ipp);
@@ -385,11 +385,11 @@ app.post("/replypost", (response, request) => {
     }
   );
   setTimeout(() => {
-    request.redirect(`/post${keyParam}`);
+    request.redirect(`/forum/post${keyParam}`);
   }, 300);
 });
 
-app.post("/replyreplypost", (response, request) => {
+app.post("/forum/replyreplypost", (response, request) => {
   const ipp =
     response.header("x-forwarded-for") || response.connection.remoteAddress;
   console.log(ipp);
@@ -430,7 +430,7 @@ app.post("/replyreplypost", (response, request) => {
     }
   );
   setTimeout(() => {
-    request.redirect(`/post${danus}`);
+    request.redirect(`/forum/post${danus}`);
   }, 300);
 });
 const net = require("net");

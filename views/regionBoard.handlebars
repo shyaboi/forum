@@ -9,7 +9,7 @@
         </svg></button>
     <div uk-dropdown>
         <ul class="uk-nav uk-dropdown-nav">
-            <li><a href="/newpost">New Post(big)</a></li>
+            <li><a href="/forum/newpost">New Post(big)</a></li>
             <li class="uk-nav-divider"></li>
             <li class="uk-nav-header">The Forums</li>
             <li><a href="/forum">Home Board</a></li>
@@ -20,7 +20,7 @@
     <button href="#toggle-animation" class="uk-button uk-button-default hidden right" type="button"
         uk-toggle="  target: #toggle-animation; hidden; animation: uk-animation-fade">New Post</button>
     <div id="toggle-animation" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden>
-        <form action="newRegionPost" method="POST">
+        <form action="forum/newRegionPost" method="POST">
             <div class="uk-margin">
                 <input class="uk-input" name="title" type="text" placeholder="Title" value="">
             </div>
@@ -110,7 +110,7 @@
                                             type="button"
                                             uk-toggle="  target: #toggle-{{this.uuid}}; hidden; animation: uk-animation-fade">Reply
                                             to Post</button>
-                                        <a class="uk-link-muted" href="/post{{this.uuid}}">Go To Post</a>
+                                        <a class="uk-link-muted" href="/forum/post{{this.uuid}}">Go To Post</a>
                                         <div id="toggle-{{this.uuid}}"
                                             class="reply uk-card uk-card-default uk-card-body uk-margin-small" hidden>
                                             <form action="replypost" method="POST">
