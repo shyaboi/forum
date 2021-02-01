@@ -199,7 +199,7 @@ let bod;
 let region;
 let flag;
 let city;
-app.get(`/regionBoard`, (req, response) => {
+app.get(`/forum/regionBoard`, (req, response) => {
   const ipp = req.header("x-forwarded-for") || req.connection.remoteAddress;
   const ip = ipp.slice(7);
   console.log("ip1:" + ip);
